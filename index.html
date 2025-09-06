@@ -1,10 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AyurSutra - Login</title>
     <style>
+        /* CSS Variables for Theme Support */
+        :root {
+            /* Light theme variables */
+            --bg-gradient-start: #f5f7fa;
+            --bg-gradient-end: #c3cfe2;
+            --container-bg: white;
+            --text-primary: #333;
+            --text-secondary: #666;
+            --text-muted: #999;
+            --input-bg: #f9f9f9;
+            --input-border: #e0e0e0;
+            --input-focus-bg: white;
+            --divider-bg: #e0e0e0;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --theme-toggle-bg: rgba(255, 255, 255, 0.2);
+            --theme-toggle-border: rgba(255, 255, 255, 0.3);
+        }
+
+        [data-theme="dark"] {
+            /* Dark theme variables */
+            --bg-gradient-start: #1a1a2e;
+            --bg-gradient-end: #16213e;
+            --container-bg: #2d2d2d;
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --text-muted: #999999;
+            --input-bg: #3a3a3a;
+            --input-border: #555555;
+            --input-focus-bg: #404040;
+            --divider-bg: #555555;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --theme-toggle-bg: rgba(0, 0, 0, 0.2);
+            --theme-toggle-border: rgba(0, 0, 0, 0.3);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,22 +48,24 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            transition: all 0.3s ease;
         }
 
         .login-container {
-            background: white;
+            background: var(--container-bg);
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 20px 60px var(--shadow-color);
             overflow: hidden;
             width: 900px;
             max-width: 90%;
             min-height: 600px;
             display: flex;
+            transition: all 0.3s ease;
         }
 
         .left-section {
@@ -70,6 +107,52 @@
             z-index: 1;
         }
 
+        .theme-toggle-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.theme-toggle {
+    background: rgba(102, 126, 234, 0.9);
+    border: 1px solid rgba(102, 126, 234, 0.3);
+    border-radius: 50px;
+    padding: 12px 18px;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.theme-toggle:hover {
+    background: rgba(102, 126, 234, 1);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+[data-theme="dark"] .theme-toggle {
+    background: rgba(118, 75, 162, 0.9);
+    border-color: rgba(118, 75, 162, 0.3);
+    box-shadow: 0 4px 15px rgba(118, 75, 162, 0.3);
+}
+
+[data-theme="dark"] .theme-toggle:hover {
+    background: rgba(118, 75, 162, 1);
+    box-shadow: 0 6px 20px rgba(118, 75, 162, 0.4);
+}
+
+
+        .theme-icon {
+            font-size: 16px;
+            transition: transform 0.3s ease;
+        }
+
         .right-section {
             flex: 1;
             padding: 60px 50px;
@@ -85,14 +168,16 @@
 
         .login-title {
             font-size: 2rem;
-            color: #333;
+            color: var(--text-primary);
             margin-bottom: 10px;
             font-weight: 300;
+            transition: color 0.3s ease;
         }
 
         .login-subtitle {
-            color: #666;
+            color: var(--text-secondary);
             font-size: 1rem;
+            transition: color 0.3s ease;
         }
 
         .login-options {
@@ -104,7 +189,7 @@
         .login-button {
             padding: 18px 30px;
             border: 2px solid #667eea;
-            background: white;
+            background: var(--container-bg);
             color: #667eea;
             border-radius: 12px;
             font-size: 1.1rem;
@@ -144,7 +229,8 @@
             text-align: center;
             margin: 30px 0;
             position: relative;
-            color: #999;
+            color: var(--text-muted);
+            transition: color 0.3s ease;
         }
 
         .divider::before {
@@ -154,19 +240,22 @@
             left: 0;
             right: 0;
             height: 1px;
-            background: #e0e0e0;
+            background: var(--divider-bg);
+            transition: background 0.3s ease;
         }
 
         .divider span {
-            background: white;
+            background: var(--container-bg);
             padding: 0 20px;
+            transition: background 0.3s ease;
         }
 
         .footer-text {
             text-align: center;
             margin-top: 40px;
-            color: #999;
+            color: var(--text-muted);
             font-size: 0.9rem;
+            transition: color 0.3s ease;
         }
 
         .footer-text a {
@@ -194,24 +283,26 @@
         .form-label {
             display: block;
             margin-bottom: 8px;
-            color: #333;
+            color: var(--text-primary);
             font-weight: 500;
+            transition: color 0.3s ease;
         }
 
         .form-input {
             width: 100%;
             padding: 15px;
-            border: 2px solid #e0e0e0;
+            border: 2px solid var(--input-border);
             border-radius: 10px;
             font-size: 1rem;
             transition: all 0.3s ease;
-            background: #f9f9f9;
+            background: var(--input-bg);
+            color: var(--text-primary);
         }
 
         .form-input:focus {
             outline: none;
             border-color: #667eea;
-            background: white;
+            background: var(--input-focus-bg);
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
@@ -293,34 +384,51 @@
             to { transform: rotate(360deg); }
         }
 
-        @media (max-width: 768px) {
-            .login-container {
-                flex-direction: column;
-                width: 95%;
-                min-height: auto;
-            }
-            
-            .left-section {
-                padding: 40px 30px;
-            }
-            
-            .right-section {
-                padding: 40px 30px;
-            }
-            
-            .logo {
-                font-size: 2rem;
-            }
-            
-            .login-title {
-                font-size: 1.6rem;
-            }
-        }
+       @media (max-width: 768px) {
+    .login-container {
+        flex-direction: column;
+        width: 95%;
+        min-height: auto;
+    }
+    
+    .left-section {
+        padding: 40px 30px;
+    }
+    
+    .right-section {
+        padding: 40px 30px;
+    }
+    
+    .logo {
+        font-size: 2rem;
+    }
+    
+    .login-title {
+        font-size: 1.6rem;
+    }
+
+    .theme-toggle-container {
+        bottom: 15px;
+        right: 15px;
+    }
+    
+    .theme-toggle {
+        padding: 10px 15px;
+        font-size: 13px;
+    }
+}
+
     </style>
 </head>
 <body>
     <div class="login-container">
         <div class="left-section">
+            <div class="theme-toggle-container">
+                <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">
+                    <span class="theme-icon" id="themeIcon">🌙</span>
+                    <span id="themeText">Dark</span>
+                </button>
+            </div>
             <h1 class="logo">AyurSutra</h1>
             <p class="tagline">
                 Traditional Panchakarma therapy management Application <br>
@@ -352,7 +460,7 @@
                 </div>
                 
                 <div class="divider">
-                    <span>or</span>
+                    <span> or </span>
                 </div>
                 
                 <div class="footer-text">
@@ -424,6 +532,8 @@
         </div>
     </div>
 
+
+    
     <script>
         // Demo credentials for testing
         const credentials = {
@@ -438,6 +548,39 @@
                 'ayuradmin': 'admin2025'
             }
         };
+
+        // Theme toggle functionality
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            html.setAttribute('data-theme', newTheme);
+            updateThemeButton(newTheme);
+            
+            // Save preference to localStorage
+            localStorage.setItem('theme', newTheme);
+        }
+
+        function updateThemeButton(theme) {
+            const themeIcon = document.getElementById('themeIcon');
+            const themeText = document.getElementById('themeText');
+            
+            if (theme === 'dark') {
+                themeIcon.textContent = '☀️';
+                themeText.textContent = 'Light';
+            } else {
+                themeIcon.textContent = '🌙';
+                themeText.textContent = 'Dark';
+            }
+        }
+
+        // Load saved theme preference on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeButton(savedTheme);
+        });
 
         function showLoginForm(type) {
             // Hide selection screen
@@ -502,12 +645,12 @@
                     
                     // Redirect to appropriate dashboard
                     setTimeout(() => {
-    if (type === 'client') {
-        window.location.href = 'client/home_client.html';
-    } else {
-        window.location.href = 'admin/home_admin.html';
-    }
-}, 1000);
+                        if (type === 'client') {
+                            window.location.href = 'client/home_client.html';
+                        } else {
+                            window.location.href = 'admin/home_admin.html';
+                        }
+                    }, 1000);
                 } else {
                     // Failed login
                     loadingDiv.style.display = 'none';
