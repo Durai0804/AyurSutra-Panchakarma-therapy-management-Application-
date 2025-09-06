@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AyurSutra - Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 900px;
+            max-width: 90%;
+            min-height: 600px;
+            display: flex;
+        }
+
+        .left-section {
+            flex: 1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 40px;
+            color: white;
+            position: relative;
+        }
+
+        .left-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="3" fill="rgba(255,255,255,0.05)"/><circle cx="40" cy="80" r="2" fill="rgba(255,255,255,0.1)"/></svg>');
+            pointer-events: none;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            z-index: 1;
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            text-align: center;
+            opacity: 0.9;
+            line-height: 1.6;
+            z-index: 1;
+        }
+
+        .right-section {
+            flex: 1;
+            padding: 60px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .login-title {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .login-subtitle {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .login-options {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .login-button {
+            padding: 18px 30px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .login-button:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .login-button.admin {
+            border-color: #764ba2;
+            color: #764ba2;
+        }
+
+        .login-button.admin:hover {
+            background: #764ba2;
+            box-shadow: 0 8px 25px rgba(118, 75, 162, 0.3);
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 30px 0;
+            position: relative;
+            color: #999;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e0e0e0;
+        }
+
+        .divider span {
+            background: white;
+            padding: 0 20px;
+        }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 40px;
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .footer-text a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .footer-text a:hover {
+            text-decoration: underline;
+        }
+
+        /* Login Form Styles */
+        .login-form {
+            display: none;
+        }
+
+        .login-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f9f9f9;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .admin-form .form-input:focus {
+            border-color: #764ba2;
+            box-shadow: 0 0 0 3px rgba(118, 75, 162, 0.1);
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .client-submit {
+            background: #667eea;
+            color: white;
+        }
+
+        .client-submit:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .admin-submit {
+            background: #764ba2;
+            color: white;
+        }
+
+        .admin-submit:hover {
+            background: #6b3d91;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(118, 75, 162, 0.3);
+        }
+
+        .back-button {
+            background: none;
+            border: none;
+            color: #667eea;
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-align: center;
+            width: 100%;
+            padding: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .back-button:hover {
+            color: #5a67d8;
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            text-align: center;
+            display: none;
+        }
+
+        .loading {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s ease-in-out infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column;
+                width: 95%;
+                min-height: auto;
+            }
+            
+            .left-section {
+                padding: 40px 30px;
+            }
+            
+            .right-section {
+                padding: 40px 30px;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .login-title {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="left-section">
+            <h1 class="logo">AyurSutra</h1>
+            <p class="tagline">
+                Traditional Panchakarma therapy management Application <br>
+            </p>
+        </div>
+        
+        <div class="right-section">
+            <!-- Login Type Selection -->
+            <div class="login-selection">
+                <div class="login-header">
+                    <h2 class="login-title">Welcome Back</h2>
+                    <p class="login-subtitle">Please select your login type to continue</p>
+                </div>
+                
+                <div class="login-options">
+                    <button class="login-button client" onclick="showLoginForm('client')">
+                        <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                        </svg>
+                        Client Login
+                    </button>
+                    
+                    <button class="login-button admin" onclick="showLoginForm('admin')">
+                        <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd"/>
+                        </svg>
+                        Admin Login
+                    </button>
+                </div>
+                
+                <div class="divider">
+                    <span>or</span>
+                </div>
+                
+                <div class="footer-text">
+                    Need help? <a href="#">Contact Support</a>
+                </div>
+            </div>
+
+            <!-- Client Login Form -->
+            <div class="login-form client-form" id="clientForm">
+                <div class="login-header">
+                    <h2 class="login-title">Client Login</h2>
+                    <p class="login-subtitle">Enter your credentials to access your wellness journey</p>
+                </div>
+                
+                <form onsubmit="handleLogin(event, 'client')">
+                    <div class="form-group">
+                        <label class="form-label">Patient ID</label>
+                        <input type="text" class="form-input" id="clientId" placeholder="Enter your Patient ID" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-input" id="clientPassword" placeholder="Enter your password" required>
+                    </div>
+                    
+                    <button type="submit" class="submit-button client-submit">
+                        <div class="loading" id="clientLoading"></div>
+                        <span id="clientButtonText">Login to My Dashboard</span>
+                    </button>
+                    
+                    <div class="error-message" id="clientError"></div>
+                    
+                    <button type="button" class="back-button" onclick="showLoginSelection()">
+                        ← Back to login options
+                    </button>
+                </form>
+            </div>
+
+            <!-- Admin Login Form -->
+            <div class="login-form admin-form" id="adminForm">
+                <div class="login-header">
+                    <h2 class="login-title">Admin Login</h2>
+                    <p class="login-subtitle">Administrative access to AyurSutra platform</p>
+                </div>
+                
+                <form onsubmit="handleLogin(event, 'admin')">
+                    <div class="form-group">
+                        <label class="form-label">Admin ID</label>
+                        <input type="text" class="form-input" id="adminId" placeholder="Enter your Admin ID" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-input" id="adminPassword" placeholder="Enter your password" required>
+                    </div>
+                    
+                    <button type="submit" class="submit-button admin-submit">
+                        <div class="loading" id="adminLoading"></div>
+                        <span id="adminButtonText">Login to Admin Panel</span>
+                    </button>
+                    
+                    <div class="error-message" id="adminError"></div>
+                    
+                    <button type="button" class="back-button" onclick="showLoginSelection()">
+                        ← Back to login options
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Demo credentials for testing
+        const credentials = {
+            client: {
+                'patient123': 'password123',
+                'demo': 'demo',
+                'rajesh': 'rajesh123'
+            },
+            admin: {
+                'admin': 'admin123',
+                'demo': 'demo',
+                'ayuradmin': 'admin2025'
+            }
+        };
+
+        function showLoginForm(type) {
+            // Hide selection screen
+            document.querySelector('.login-selection').style.display = 'none';
+            
+            // Show appropriate form
+            if (type === 'client') {
+                document.getElementById('clientForm').classList.add('active');
+                document.getElementById('clientId').focus();
+            } else if (type === 'admin') {
+                document.getElementById('adminForm').classList.add('active');
+                document.getElementById('adminId').focus();
+            }
+        }
+
+        function showLoginSelection() {
+            // Hide all forms
+            document.querySelectorAll('.login-form').forEach(form => {
+                form.classList.remove('active');
+            });
+            
+            // Show selection screen
+            document.querySelector('.login-selection').style.display = 'block';
+            
+            // Clear error messages
+            document.querySelectorAll('.error-message').forEach(error => {
+                error.style.display = 'none';
+            });
+            
+            // Reset forms
+            document.querySelectorAll('form').forEach(form => form.reset());
+        }
+
+        function handleLogin(event, type) {
+            event.preventDefault();
+            
+            const idField = type === 'client' ? 'clientId' : 'adminId';
+            const passwordField = type === 'client' ? 'clientPassword' : 'adminPassword';
+            const errorField = type === 'client' ? 'clientError' : 'adminError';
+            const loadingField = type === 'client' ? 'clientLoading' : 'adminLoading';
+            const buttonTextField = type === 'client' ? 'clientButtonText' : 'adminButtonText';
+            
+            const userId = document.getElementById(idField).value;
+            const password = document.getElementById(passwordField).value;
+            const errorDiv = document.getElementById(errorField);
+            const loadingDiv = document.getElementById(loadingField);
+            const buttonText = document.getElementById(buttonTextField);
+            
+            // Clear previous errors
+            errorDiv.style.display = 'none';
+            
+            // Show loading
+            loadingDiv.style.display = 'block';
+            buttonText.textContent = 'Logging in...';
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                // Check credentials
+                if (credentials[type][userId] && credentials[type][userId] === password) {
+                    // Successful login
+                    buttonText.textContent = 'Login Successful!';
+                    
+                    // Redirect to appropriate dashboard
+                    setTimeout(() => {
+    if (type === 'client') {
+        window.location.href = 'client/home_client.html';
+    } else {
+        window.location.href = 'admin/home_admin.html';
+    }
+}, 1000);
+                } else {
+                    // Failed login
+                    loadingDiv.style.display = 'none';
+                    buttonText.textContent = type === 'client' ? 'Login to My Dashboard' : 'Login to Admin Panel';
+                    errorDiv.textContent = 'Invalid credentials. Please try again.';
+                    errorDiv.style.display = 'block';
+                    
+                    // Show demo credentials hint after 2 seconds
+                    setTimeout(() => {
+                        errorDiv.innerHTML = `Invalid credentials. <br><small style="color: #999;">Try: ID="${Object.keys(credentials[type])[0]}", Password="${credentials[type][Object.keys(credentials[type])[0]]}"</small>`;
+                    }, 2000);
+                }
+            }, 1500);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (document.querySelector('.login-form.active')) {
+                    showLoginSelection();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
