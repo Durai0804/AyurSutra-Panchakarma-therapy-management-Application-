@@ -1,6 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
+    <!-- Example: Playfair Display for elegant serif italic -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,300&display=swap" rel="stylesheet">
+
+
+<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@1,300&display=swap" rel="stylesheet">
+
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AyurSutra - My Wellness Journey</title>
@@ -9,6 +16,39 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        /* CSS Variables for Theme Support */
+        :root {
+            /* Light theme variables */
+            --bg-primary: linear-gradient(135deg, #f8fafc 0%, #faf5ff 100%);
+            --bg-secondary: linear-gradient(135deg, #ffffff 0%, #fefbff 100%);
+            --bg-tertiary: linear-gradient(135deg, #f8fafc 0%, #faf5ff 100%);
+            --text-primary: #334155;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --card-bg: linear-gradient(135deg, #ffffff 0%, #fefbff 100%);
+            --border-color: #e0e7ff;
+            --shadow-light: rgba(102, 126, 234, 0.08);
+            --shadow-medium: rgba(102, 126, 234, 0.12);
+            --input-bg: white;
+            --hover-bg: #f1f5f9;
+        }
+
+        [data-theme="dark"] {
+            /* Dark theme variables */
+            --bg-primary: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            --bg-secondary: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            --bg-tertiary: linear-gradient(135deg, #334155 0%, #475569 100%);
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #64748b;
+            --card-bg: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            --border-color: #475569;
+            --shadow-light: rgba(0, 0, 0, 0.2);
+            --shadow-medium: rgba(0, 0, 0, 0.3);
+            --input-bg: #334155;
+            --hover-bg: #475569;
         }
 
         :root {
@@ -29,22 +69,76 @@
             --gradient-wellness: linear-gradient(135deg, #10b981 0%, #059669 100%);
         }
 
+        [data-theme="dark"] {
+            --purple-bg: #334155;
+            --purple-light: #475569;
+            --purple-text: #a5b4fc;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f8fafc 0%, #faf5ff 100%);
-            color: #334155;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             line-height: 1.6;
+            transition: all 0.3s ease;
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1001;
+        }
+
+        .theme-toggle {
+            background: rgba(102, 126, 234, 0.9);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 50px;
+            padding: 12px 18px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .theme-toggle:hover {
+            background: rgba(102, 126, 234, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        [data-theme="dark"] .theme-toggle {
+            background: rgba(118, 75, 162, 0.9);
+            border-color: rgba(118, 75, 162, 0.3);
+            box-shadow: 0 4px 15px rgba(118, 75, 162, 0.3);
+        }
+
+        [data-theme="dark"] .theme-toggle:hover {
+            background: rgba(118, 75, 162, 1);
+            box-shadow: 0 6px 20px rgba(118, 75, 162, 0.4);
+        }
+
+        .theme-icon {
+            font-size: 16px;
+            transition: transform 0.3s ease;
         }
 
         /* Header */
         .header {
-            background: linear-gradient(135deg, #ffffff 0%, #fefbff 100%);
+            background: var(--card-bg);
             padding: 20px 30px;
-            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.08);
-            border-bottom: 1px solid #e0e7ff;
+            box-shadow: 0 4px 20px var(--shadow-light);
+            border-bottom: 1px solid var(--border-color);
             position: sticky;
             top: 0;
             z-index: 100;
+            transition: all 0.3s ease;
         }
 
         .header-content {
@@ -80,11 +174,13 @@
             font-weight: 300;
             color: var(--purple-text);
             margin-bottom: 5px;
+            transition: color 0.3s ease;
         }
 
         .patient-info {
-            color: #64748b;
+            color: var(--text-secondary);
             font-size: 0.95rem;
+            transition: color 0.3s ease;
         }
 
         .header-actions {
@@ -104,6 +200,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
+            color: var(--purple-text);
         }
 
         .header-icon:hover {
@@ -140,17 +237,17 @@
 
         /* Card Base Style */
         .card {
-            background: linear-gradient(135deg, #ffffff 0%, #fefbff 100%);
+            background: var(--card-bg);
             border-radius: 20px;
             padding: 30px;
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.08);
-            border: 1px solid #e0e7ff;
+            box-shadow: 0 8px 25px var(--shadow-light);
+            border: 1px solid var(--border-color);
             transition: all 0.3s ease;
         }
 
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.12);
+            box-shadow: 0 12px 35px var(--shadow-medium);
         }
 
         .card-header {
@@ -165,6 +262,7 @@
             color: var(--purple-text);
             font-weight: 500;
             position: relative;
+            transition: color 0.3s ease;
         }
 
         .card-title::after {
@@ -184,11 +282,12 @@
         }
 
         .progress-section {
-            background: linear-gradient(135deg, #f8fafc 0%, #faf5ff 100%);
+            background: var(--bg-tertiary);
             border-radius: 15px;
             padding: 25px;
             margin-bottom: 25px;
-            border: 1px solid #e0e7ff;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
         }
 
         .progress-header {
@@ -202,11 +301,13 @@
             color: var(--purple-text);
             font-size: 1.2rem;
             margin-bottom: 5px;
+            transition: color 0.3s ease;
         }
 
         .stage-details {
-            color: #64748b;
+            color: var(--text-secondary);
             font-size: 0.9rem;
+            transition: color 0.3s ease;
         }
 
         .completion-percent {
@@ -219,7 +320,7 @@
 
         .progress-bar {
             height: 12px;
-            background: #e0e7ff;
+            background: var(--border-color);
             border-radius: 6px;
             overflow: hidden;
             margin-bottom: 15px;
@@ -250,7 +351,7 @@
             width: 16px;
             height: 16px;
             border-radius: 50%;
-            background: #e0e7ff;
+            background: var(--border-color);
             margin: 0 auto 8px;
             position: relative;
             z-index: 2;
@@ -268,7 +369,8 @@
 
         .timeline-label {
             font-size: 0.8rem;
-            color: #64748b;
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
         }
 
         @keyframes pulse {
@@ -283,7 +385,7 @@
         }
 
         .session-card {
-            background: linear-gradient(135deg, #f8fafc 0%, #faf5ff 100%);
+            background: var(--bg-tertiary);
             border-radius: 12px;
             padding: 20px;
             border-left: 4px solid var(--primary-purple);
@@ -306,6 +408,7 @@
             color: var(--purple-text);
             font-weight: 500;
             margin-bottom: 5px;
+            transition: color 0.3s ease;
         }
 
         .session-time {
@@ -317,8 +420,9 @@
         }
 
         .session-details {
-            color: #64748b;
+            color: var(--text-secondary);
             font-size: 0.9rem;
+            transition: color 0.3s ease;
         }
 
         /* Right Sidebar */
@@ -334,7 +438,8 @@
             align-items: flex-start;
             gap: 15px;
             padding: 15px 0;
-            border-bottom: 1px solid #f1f5f9;
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.3s ease;
         }
 
         .notification-item:last-child {
@@ -374,20 +479,23 @@
             color: var(--purple-text);
             font-weight: 500;
             margin-bottom: 5px;
+            transition: color 0.3s ease;
         }
 
         .notification-text {
-            color: #64748b;
+            color: var(--text-secondary);
             font-size: 0.9rem;
             line-height: 1.4;
+            transition: color 0.3s ease;
         }
 
         /* Feedback Section */
         .feedback-form {
-            background: linear-gradient(135deg, #f8fafc 0%, #faf5ff 100%);
+            background: var(--bg-tertiary);
             border-radius: 15px;
             padding: 20px;
             margin-bottom: 20px;
+            transition: all 0.3s ease;
         }
 
         .mood-selector {
@@ -400,8 +508,8 @@
             width: 45px;
             height: 45px;
             border-radius: 50%;
-            border: 2px solid #e0e7ff;
-            background: white;
+            border: 2px solid var(--border-color);
+            background: var(--input-bg);
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
@@ -446,7 +554,7 @@
         }
 
         .btn-outline {
-            background: white;
+            background: var(--input-bg);
             color: var(--primary-purple);
             border: 2px solid var(--primary-purple);
         }
@@ -465,8 +573,8 @@
         }
 
         .quick-access-item {
-            background: linear-gradient(135deg, #f8fafc 0%, #faf5ff 100%);
-            border: 1px solid #e0e7ff;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 20px;
             text-align: center;
@@ -478,7 +586,7 @@
 
         .quick-access-item:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+            box-shadow: 0 8px 25px var(--shadow-light);
             border-color: var(--primary-purple);
         }
 
@@ -508,11 +616,12 @@
         }
 
         .metric-item {
-            background: linear-gradient(135deg, #f8fafc 0%, #faf5ff 100%);
+            background: var(--bg-tertiary);
             border-radius: 12px;
             padding: 20px;
             text-align: center;
-            border: 1px solid #e0e7ff;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
         }
 
         .metric-value {
@@ -525,16 +634,18 @@
         }
 
         .metric-label {
-            color: #64748b;
+            color: var(--text-secondary);
             font-size: 0.85rem;
+            transition: color 0.3s ease;
         }
 
         /* Communication Section */
         .chat-preview {
-            background: linear-gradient(135deg, #f8fafc 0%, #faf5ff 100%);
+            background: var(--bg-tertiary);
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 15px;
+            transition: all 0.3s ease;
         }
 
         .chat-message {
@@ -566,11 +677,47 @@
             color: var(--purple-text);
             font-size: 0.9rem;
             margin-bottom: 2px;
+            transition: color 0.3s ease;
         }
 
         .chat-text {
-            color: #64748b;
+            color: var(--text-secondary);
             font-size: 0.85rem;
+            transition: color 0.3s ease;
+        }
+
+        /* Textarea styling */
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            resize: vertical;
+            font-family: inherit;
+            font-size: 0.9rem;
+            background: var(--input-bg);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-purple);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        /* Chart placeholder */
+        .chart-placeholder {
+            height: 200px;
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            margin-top: 20px;
+            border: 2px dashed var(--border-color);
+            transition: all 0.3s ease;
         }
 
         /* Responsive Design */
@@ -612,6 +759,16 @@
             .quick-access-grid {
                 grid-template-columns: 1fr;
             }
+
+            .theme-toggle-container {
+                bottom: 15px;
+                right: 15px;
+            }
+            
+            .theme-toggle {
+                padding: 10px 15px;
+                font-size: 13px;
+            }
         }
 
         /* Loading Animation */
@@ -619,7 +776,7 @@
             display: inline-block;
             width: 20px;
             height: 20px;
-            border: 2px solid #e0e7ff;
+            border: 2px solid var(--border-color);
             border-radius: 50%;
             border-top-color: var(--primary-purple);
             animation: spin 1s ease-in-out infinite;
@@ -628,9 +785,24 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+
+
+
     </style>
 </head>
 <body>
+
+   
+
+
+    <!-- Theme toggle button (fixed position) -->
+    <div class="theme-toggle-container">
+        <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">
+            <span class="theme-icon" id="themeIcon">🌙</span>
+            <span id="themeText">Dark</span>
+        </button>
+    </div>
+
     <!-- Header -->
     <div class="header">
         <div class="header-content">
@@ -756,7 +928,7 @@
                     </div>
                 </div>
 
-                <div style="height: 200px; background: linear-gradient(135deg, #f8fafc 0%, #faf5ff 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #64748b; margin-top: 20px; border: 2px dashed #d8b4fe;">
+                <div class="chart-placeholder">
                     📊 Weekly Progress Chart
                 </div>
             </div>
@@ -850,7 +1022,7 @@
                         <div class="mood-option" title="Poor">😔</div>
                     </div>
                     
-                    <textarea placeholder="Any symptoms or concerns today?" style="width: 100%; padding: 10px; border: 1px solid #e0e7ff; border-radius: 8px; resize: vertical; font-family: inherit; font-size: 0.9rem;" rows="3"></textarea>
+                    <textarea placeholder="Any symptoms or concerns today?" rows="3"></textarea>
                     
                     <button class="btn btn-primary" style="width: 100%; margin-top: 15px;">
                         Submit Daily Feedback
@@ -906,6 +1078,46 @@
     </div>
 
     <script>
+
+       
+
+
+
+
+
+        // Theme toggle functionality
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            html.setAttribute('data-theme', newTheme);
+            updateThemeButton(newTheme);
+            
+            // Save preference to localStorage
+            localStorage.setItem('theme', newTheme);
+        }
+
+        function updateThemeButton(theme) {
+            const themeIcon = document.getElementById('themeIcon');
+            const themeText = document.getElementById('themeText');
+            
+            if (theme === 'dark') {
+                themeIcon.textContent = '☀️';
+                themeText.textContent = 'Light';
+            } else {
+                themeIcon.textContent = '🌙';
+                themeText.textContent = 'Dark';
+            }
+        }
+
+        // Load saved theme preference on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeButton(savedTheme);
+        });
+
         // Interactive mood selector
         document.querySelectorAll('.mood-option').forEach(option => {
             option.addEventListener('click', function() {
