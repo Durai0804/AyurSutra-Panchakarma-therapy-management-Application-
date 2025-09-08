@@ -813,6 +813,13 @@
                     </svg>
                     <input type="text" placeholder="Search practitioners, ID, specialization..." id="searchInput">
                 </div>
+                <!-- Mic Icon for Voice Assistant -->
+                <button id="voiceBtn" title="Voice Assistant" style="background:none;border:none;outline:none;cursor:pointer;margin-left:15px;">
+                    <svg id="micIcon" width="28" height="28" viewBox="0 0 24 24" fill="none" style="color:#667eea;">
+                        <circle cx="12" cy="12" r="12" fill="#f3f4f6"/>
+                        <path d="M12 16a3 3 0 003-3V9a3 3 0 10-6 0v4a3 3 0 003 3zm5-3a1 1 0 10-2 0 5 5 0 01-10 0 1 1 0 10-2 0 7 7 0 0014 0z" fill="#667eea"/>
+                    </svg>
+                </button>
             </div>
 
             <!-- Dashboard Content -->
@@ -1407,6 +1414,81 @@
                 alert(`Feature: ${this.textContent.trim()}`);
             });
         });
+
+        // Voice Assistant for Navigation
+        const voiceBtn = document.getElementById('voiceBtn');
+        const micIcon = document.getElementById('micIcon');
+        let recognizing = false;
+        let recognition;
+
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            recognition.lang = 'en-IN';
+            recognition.interimResults = false;
+            recognition.continuous = false;
+
+            recognition.onstart = function() {
+                recognizing = true;
+                micIcon.style.filter = "drop-shadow(0 0 8px #667eea)";
+            };
+            recognition.onend = function() {
+                recognizing = false;
+                micIcon.style.filter = "";
+            };
+            recognition.onerror = function(e) {
+                recognizing = false;
+                micIcon.style.filter = "";
+                alert('Voice recognition error: ' + e.error);
+            };
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript.toLowerCase();
+                handleVoiceCommand(transcript);
+            };
+
+            voiceBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (recognizing) {
+                    recognition.stop();
+                } else {
+                    recognition.start();
+                }
+            });
+        } else {
+            voiceBtn.style.display = 'none';
+            alert('Voice assistant not supported in this browser.');
+        }
+
+        function handleVoiceCommand(command) {
+            // Navigation commands
+            if (command.includes('dashboard')) {
+                window.location.href = 'home_admin.html';
+            } else if (command.includes('patients')) {
+                window.location.href = 'patients.html';
+            } else if (command.includes('practitioner') || command.includes('therapist')) {
+                window.location.href = 'practitioner.html';
+            } else if (command.includes('schedule')) {
+                window.location.href = 'schedule.html';
+            } else if (command.includes('therapy')) {
+                window.location.href = 'therapy.html';
+            } else if (command.includes('report')) {
+                window.location.href = 'reports.html';
+            } else if (command.includes('notification')) {
+                alert('Opening notifications panel.');
+            } else if (command.includes('search')) {
+                document.getElementById('mainSearch').focus();
+            } else if (command.includes('dark mode')) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                updateThemeButton('dark');
+                localStorage.setItem('theme', 'dark');
+            } else if (command.includes('light mode')) {
+                document.documentElement.setAttribute('data-theme', 'light');
+                updateThemeButton('light');
+                localStorage.setItem('theme', 'light');
+            } else {
+                alert('Sorry, command not recognized: ' + command);
+            }
+        }
     </script>
 </body>
 </html>
